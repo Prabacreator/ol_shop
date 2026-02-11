@@ -198,27 +198,7 @@
   }
   </style>
 </head>
-<body class="text-bg-dark" onclick="home.classList.toggle('d-none')">
-
-<!-- BACKGROUND VIDEO -->
-
-
-<!-- CONTENT -->
-<div id="home" class="container-fluid min-vh-100 d-flex justify-content-center align-items-center text-center">
-  <div class="card shadow">
-    <div class="card-header">
-      <h5 class="fw-bolder">Kedai Praba</h5>
-    </div>
-    <div class="card-body">
-      <p class="fw-light">
-        Sedia kebutuhan sembako dan kebutuhan lainnya dgn harga terjangkau.
-      </p>
-      <button type="button" class="btn btn-sm btn-outline-light w-50" onclick="m.show('#pageProduct');home.classList.toggle('d-none')">
-        Mulai Belanja
-      </button>
-    </div>
-  </div>
-</div>
+<body class="text-bg-dark">
 
 <!-- PAGE PRODUCT -->
 <div id="pageProduct" class="modal fade glass" tabindex="-1">
@@ -226,7 +206,6 @@
     <div class="modal-content h-100">
       <div class="modal-header">
         <span id="delUser">Logout</span>
-        <span class="btn-close" onclick="m.hide('#pageProduct')"></span>
       </div>
       <div id="loadProduct" class="modal-body"></div>
       <div class="modal-footer flex-column">
@@ -234,7 +213,7 @@
         <div class="d-flex justify-content-center gap-2">
           <button id="btnInv" class="btn btn-outline-light" onclick="loadInvoice();m.hide('#pageProduct');m.show('#invoice')">Invoice</button>
           <button class="btn btn-outline-light d-none" id="btnAddProduct"
-            onclick="m.hide('#pageProduct');m.show('#formProduct')">Tambah Produk</button>
+            onclick="m.show('#formProduct')">Tambah Produk</button>
           <button class="btn btn-outline-light " id="enter">Kirim Order</button>
         </div>
       </div>
@@ -281,7 +260,7 @@
 </div>
 
 <!-- INVOICE -->
-<div id="invoice" class="modal fade glass" tabindex="-1">
+<div id="invoice" class="modal fade glass" tabindex="-1" onclick="m.show('#pageProduct')">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -296,7 +275,7 @@
 <!-- FORM USER -->
 <div id="formUser" class="modal fade glass" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered px-3">
-    <div class="modal-content">
+    <div class="modal-content h-100">
       <div class="modal-header justify-content-center">
         <h5 class="fw-bolder">Register</h5>
         <span class="btn-close" data-bs-dismiss="modal" onclick="m.show('#pageProduct')"></span>
@@ -426,7 +405,6 @@ let editId  = null;
 /* =========================
    == USER / AUTH ==
 ========================= */
-const home = $('home');
 const btnAddUser = $('addUser');
 const btnDelUser = $('delUser');
 const user = $('username');
@@ -468,7 +446,7 @@ btnAddUser.onclick = async ()=>{
 btnDelUser.onclick = async ()=>{
   const s = getSession();
   if(!s){
-    m.hide('#pageProduct');
+    m.show('#pageProduct');
     m.show('#formUser');
     return;
   }else{
@@ -672,6 +650,7 @@ async function editProduct(id){
   };
 
   dels.classList.remove('d-none');
+  m.show('#pageProduct');
   m.show('#formProduct');
 }
 
@@ -687,7 +666,7 @@ async function enterOrder(id){
       showCancelButton:true
     });
     if(!c.isConfirmed) return;
-    m.hide('#pageProduct');
+    m.show('#pageProduct');
     m.show('#formUser');
   } else {
   
@@ -951,7 +930,6 @@ async function loadInvoice(){
   const s = getSession();
   btnDelUser.textContent = `${!s ? 'Login' : 'logout' }`;
   btnDelUser.className = `${!s ? 'badge pointer bg-success' : 'badge pointer bg-danger' }`; 
-  home.classList.add('d-none');
   m.show('#pageProduct');
   applyRole();
   loadProduct();
