@@ -205,7 +205,7 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content h-100">
       <div class="modal-header">
-        <span id="delUser">Logout</span>
+        <span id="delUser" class="badge pointer">Logout</span>
       </div>
       <div id="loadProduct" class="modal-body"></div>
       <div class="modal-footer flex-column">
@@ -442,6 +442,7 @@ btnAddUser.onclick = async ()=>{
   applyRole();
   loadProduct();
   tableOrder();
+  location.reload('index.html')
 };
 btnDelUser.onclick = async ()=>{
   const s = getSession();
@@ -451,7 +452,7 @@ btnDelUser.onclick = async ()=>{
     return;
   }else{
     delSession();
-    location.reload();
+    location.reload('index.html');
   }
 };
 
@@ -929,7 +930,7 @@ async function loadInvoice(){
   await openDB();
   const s = getSession();
   btnDelUser.textContent = `${!s ? 'Login' : 'logout' }`;
-  btnDelUser.className = `${!s ? 'badge pointer bg-success' : 'badge pointer bg-danger' }`; 
+  btnDelUser.classList.add(`${!s ? 'bg-success' : 'bg-danger' }`); 
   m.show('#pageProduct');
   applyRole();
   loadProduct();
